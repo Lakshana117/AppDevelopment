@@ -1,0 +1,141 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #ff6f61, #d83360);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: auto;
+}
+
+.auth-box {
+    display: flex;
+    width: 100%;
+}
+
+.auth-content, .auth-side {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    flex: 2;
+}
+
+.auth-content h1 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #ff6f61;
+}
+
+.auth-content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-content input, .auth-content select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.auth-content input::placeholder, .auth-content select::placeholder {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #999;
+}
+
+.auth-content button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background-color: #ff6f61;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-content button:hover {
+    background-color: #d83360;
+}
+
+.auth-side {
+    background: linear-gradient(to right, #ff6f61, #d83360);
+    color: white;
+    text-align: center;
+}
+
+.auth-side h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.auth-side p {
+    margin-bottom: 2rem;
+}
+
+.auth-side .side-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background-color: white;
+    color: #ff6f61;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-side .side-button:hover {
+    background-color: #d83360;
+    color: white;
+}
+
+.error {
+    color: red;
+    font-size: 0.75rem;
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.message {
+    color: green;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+.auth-content p {
+    margin-top: 1rem;
+}
