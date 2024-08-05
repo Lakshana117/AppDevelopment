@@ -17,6 +17,7 @@
     "country-state-city": "^3.1.2",
     "css": "^3.0.0",
     "framer-motion": "^9.0.4",
+    "nir": "file:",
     "protected-route-react": "^1.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
