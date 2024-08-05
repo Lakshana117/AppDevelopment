@@ -1,0 +1,39 @@
+.home {
+  padding: 0;
+}
+
+.hero-section {
+  background: #007bff;
+  color: #fff;
+  padding: 60px 0;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+}
+
+.hero-img {
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .hero-img {
+    max-width: 100%;
+  }
+}
