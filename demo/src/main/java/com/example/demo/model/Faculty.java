@@ -5,23 +5,20 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "faculty")
+@Table(name = "faculties")
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String department;
+    private String designation;
+    private String expertise;
+
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    private String name;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private String department;
-    private String qualification;
-    private String experience;
-
-    // Getters and Setters
+    // Getters and setters
+    // ...
 }

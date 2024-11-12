@@ -11,17 +11,16 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    private String name;
-    private String email;
-    private String password;
-    private String phoneNumber;
     private String registerNumber;
     private String course;
-    private String year;
+    private String department;
+    private int year;
+    private String section;
 
-    // Getters and Setters
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // Getters and setters
+    // ...
 }

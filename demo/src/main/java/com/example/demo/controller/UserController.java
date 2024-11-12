@@ -1,13 +1,24 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.model.Student;
-import com.example.demo.model.Faculty;
-import com.example.demo.service.UserService;
-import com.example.demo.service.StudentService;
-import com.example.demo.service.FacultyService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
@@ -16,68 +27,38 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    private FacultyService facultyService;
-
-    @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        if ("student".equals(user.getRole())) {
-            Student student = new Student();
-            student.setUser(registeredUser);
-            student.setName(user.getName());
-            student.setEmail(user.getEmail());
-            student.setPassword(user.getPassword());
-            student.setPhoneNumber(user.getPhoneNumber());
-            student.setRegisterNumber(user.getRegisterNumber());
-            student.setCourse(user.getCourse());
-            student.setYear(user.getYear());
-            studentService.registerStudent(student);
-        } else if ("faculty".equals(user.getRole())) {
-            Faculty faculty = new Faculty();
-            faculty.setUser(registeredUser);
-            faculty.setName(user.getName());
-            faculty.setEmail(user.getEmail());
-            faculty.setPassword(user.getPassword());
-            faculty.setPhoneNumber(user.getPhoneNumber());
-            faculty.setDepartment(user.getDepartment());
-            faculty.setQualification(user.getQualification());
-            faculty.setExperience(user.getExperience());
-            facultyService.registerFaculty(faculty);
-        }
-        return registeredUser;
+    @PostMapping("/createUser")
+    public ResponseEntity<User> createUser(@NonNull @RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public User loginUser(@RequestBody User user) {
-        User existingUser = userService.findByEmail(user.getEmail());
-        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            return existingUser;
-        }
-        return null;  // Or throw an appropriate exception
+    @GetMapping("/readUser/{id}")
+    @PreAuthorize("hasAnyAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<?> getUserById(@NonNull @PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    
+    @GetMapping("/readUsers")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        User user = userService.findById(id);
-        if (user != null) {
-            user.setName(userDetails.getName());
-            user.setDateOfBirth(userDetails.getDateOfBirth());
-            user.setGender(userDetails.getGender());
-            user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
-            user.setRole(userDetails.getRole());
-            return userService.saveUser(user);
-        }
-        return null;  // Or throw an appropriate exception
+    @PutMapping("/updateUser/{id}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<User> updateUser(@NonNull @PathVariable Long id, @RequestBody User userDetails) {
+        User updatedUser = userService.updateUser(id, userDetails);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/deleteUser/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteUser(@NonNull @PathVariable Long id) {
         userService.deleteUser(id);
-        return "User deleted successfully";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
